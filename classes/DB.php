@@ -154,7 +154,7 @@ class DB{
     //end error
 
    /**
-    * Get results
+    * Get all results (no conditions in query)
     * @param string table name
     * @return $this
     */
@@ -182,6 +182,46 @@ class DB{
       return $this;
 
    }//end select
+
+
+    /**
+    * Get results (conditions present in query)
+    * @param string query
+    * @param associative array  parameters
+    * @return object $this
+    */
+
+   public function getConditional($sql=null,$params=array())
+   {
+
+      if(!empty($sql))
+      {
+      	
+      	//get the column values to be inserted
+		$conditional_values=array();
+
+		foreach($params as $param)
+		{
+			  $conditional_values[]=$param;
+		}
+
+      	//query executed sucessfully
+      	if(!$this->query($sql,$conditional_values)->error())
+      	{
+      		$this->_results=$this->_query->fetchAll(PDO::FETCH_OBJ);
+      		$this->_count=$this->_query->rowCount();
+      	}
+      	
+
+      }
+      else{
+
+      	$this->_error=true;
+      }
+
+      return $this;
+
+   }//end conditional select
 
    /**
     * Returns the count rows returnd from select query
@@ -275,4 +315,3 @@ class DB{
    }//end update
 
 }//class
-?>

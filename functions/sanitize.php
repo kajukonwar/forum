@@ -10,4 +10,3 @@ function escape_output($str)
 
 	return htmlspecialchars($str,ENT_COMPAT,'UTF-8');
 }
-?>
